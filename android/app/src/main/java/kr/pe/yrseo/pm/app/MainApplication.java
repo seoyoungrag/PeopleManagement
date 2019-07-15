@@ -1,4 +1,4 @@
-package com.src;
+package kr.pe.yrseo.pm.app;
 
 import android.app.Application;
 
