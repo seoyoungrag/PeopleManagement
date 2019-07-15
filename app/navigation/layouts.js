@@ -47,18 +47,8 @@ export const appStack = {
               name: LAUNCH_SCREEN,
               options: {
                 topBar: {
-                  title: {
-                    text: 'Welcome!',
-                    color: Colors.snow
-                  },
-                  leftButtons: [
-                    {
-                      id: 'menuButton',
-                      icon: Images.menuIcon,
-                      testID: 'menuButton',
-                      color: Colors.snow
-                    }
-                  ]
+                  visible: false,
+                  height: 0
                 }
               }
             }
