@@ -1,8 +1,9 @@
-import { StyleSheet } from 'react-native'
+import { Platform } from 'react-native'
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { Colors, Metrics } from '../../shared/themes'
 
-export default StyleSheet.create({
+export default EStyleSheet.create({
   container: {
     paddingTop: 70,
     backgroundColor: Colors.jhipsterBlue
@@ -49,5 +50,17 @@ export default StyleSheet.create({
   topLogo: {
     alignSelf: 'center',
     resizeMode: 'contain'
+  },
+  btnNaverLogin: {
+    height: '$48',
+    width: '240 * $ratio',
+    alignSelf: 'center',
+    backgroundColor: '#00c40f',
+    borderRadius: 0,
+    borderWidth: 0,
+  },
+  txtNaverLogin: {
+    fontSize: '$fontSize',
+    color: 'white',
   }
 })

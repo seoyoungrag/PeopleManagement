@@ -9,6 +9,7 @@ import { Images, Metrics } from '../../shared/themes'
 import LoginActions from './login.reducer'
 
 import { NaverLogin, getProfile } from 'react-native-naver-login';
+import NativeButton from 'apsl-react-native-button';
 
 const initials = {
   kConsumerKey: '6R2nlOV7VrNuKlVS8JGo',
@@ -43,9 +44,6 @@ class LoginScreen extends React.Component {
       Alert.alert('로그인 실패', profileResult.message);
       return;
     }
-    this.props.navigation.navigate('Second', {
-      profileResult,
-    });
   }
   
   // 네이버 로그인 시작.
@@ -102,16 +100,16 @@ class LoginScreen extends React.Component {
         <Image source={Images.logoLogin} style={[styles.topLogo, this.state.topLogo]} />
         <View style={styles.form}>
           <View style={[styles.loginRow]}>
-            <TouchableOpacity testID='loginScreenLoginButton' style={styles.loginButtonWrapper} onPress={this.naverLoginStart}>
-              <View style={styles.loginButton}>
+            <NativeButton testID='loginScreenLoginButton' activeOpacity={0.5} isLoading={this.state.isNaverLoggingin} style={styles.loginButtonWrapper} onPress={this.naverLoginStart}>
+              
                 <Text style={styles.loginText}>NAVER LOGIN</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity testID='loginScreenCancelButton' style={styles.loginButtonWrapper} onPress={this.fetchProfile}>
-              <View style={styles.loginButton}>
+              
+            </NativeButton>
+            <NativeButton testID='loginScreenCancelButton' activeOpacity={0.5} isLoading={this.state.isNaverLoggingin} style={styles.loginButtonWrapper} onPress={this.fetchProfile}>
+              
                 <Text style={styles.loginText}>Fetch Profile</Text>
-              </View>
-            </TouchableOpacity>
+              
+            </NativeButton>
           </View>
         </View>
       </ScrollView>
