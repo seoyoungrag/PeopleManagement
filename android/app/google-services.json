@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "361599916644",
+    "firebase_url": "https://peoplemanagement-d0aba.firebaseio.com",
+    "project_id": "peoplemanagement-d0aba",
+    "storage_bucket": "peoplemanagement-d0aba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361599916644:android:bd11c5461ca63a5c",
+        "android_client_info": {
+          "package_name": "kr.pe.yrseo.pm.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "361599916644-dvtvbchoc5cvo28aq5odq11h3kheumso.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmR7OpLEBliaIbCCvATrDjNT4md3hH5lg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "361599916644-dvtvbchoc5cvo28aq5odq11h3kheumso.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
