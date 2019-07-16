@@ -8,6 +8,15 @@ import styles from './login-screen.styles'
 import { Images, Metrics } from '../../shared/themes'
 import LoginActions from './login.reducer'
 
+import { NaverLogin, getProfile } from 'react-native-naver-login';
+
+const initials = {
+  kConsumerKey: '6R2nlOV7VrNuKlVS8JGo',
+  kConsumerSecret: 'cChbS0EE_d',
+  kServiceAppName: '인풀',
+  kServiceAppUrlScheme: 'kr.pe.yrseo.pm.app', // only for iOS
+};
+
 class LoginScreen extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
@@ -19,11 +28,37 @@ class LoginScreen extends React.Component {
     super(props)
     Navigation.events().bindComponent(this)
     this.state = {
-      username: '',
-      password: '',
+      isNaverLoggingin: false,
+      theToken: 'token has not fetched',
       visibleHeight: Metrics.screenHeight,
       topLogo: { width: Metrics.screenWidth }
     }
+  }
+
+  // 로그인 후 내 프로필 가져오기.
+  fetchProfile = async() => {
+    const profileResult = await getProfile(this.state.theToken);
+    console.log(profileResult);
+    if (profileResult.resultcode === '024') {
+      Alert.alert('로그인 실패', profileResult.message);
+      return;
+    }
+    this.props.navigation.navigate('Second', {
+      profileResult,
+    });
+  }
+  
+  // 네이버 로그인 시작.
+  naverLoginStart = async() => {
+    console.log('  naverLoginStart  ed');
+    NaverLogin.login(initials, (err, token) => {
+      console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
+      this.setState({ theToken: token });
+      if (err) {
+        console.log(err);
+        return;
+      }
+    });
   }
 
   componentWillReceiveProps (newProps) {
@@ -58,7 +93,7 @@ class LoginScreen extends React.Component {
   }
 
   render () {
-    const { username, password } = this.state
+    const { theToken } = this.state;
     const { fetching } = this.props
     const editable = !fetching
     const textInputStyle = editable ? styles.textInput : styles.textInputReadonly
@@ -66,52 +101,15 @@ class LoginScreen extends React.Component {
       <ScrollView contentContainerStyle={{ justifyContent: 'center' }} style={[styles.container, { height: this.state.visibleHeight }]} keyboardShouldPersistTaps='always'>
         <Image source={Images.logoLogin} style={[styles.topLogo, this.state.topLogo]} />
         <View style={styles.form}>
-          <View style={styles.row}>
-            <Text style={styles.rowLabel}>Username</Text>
-            <TextInput
-              ref='username'
-              testID='loginScreenUsername'
-              style={textInputStyle}
-              value={username}
-              editable={editable}
-              keyboardType='default'
-              returnKeyType='next'
-              autoCapitalize='none'
-              autoCorrect={false}
-              onChangeText={this.handleChangeUsername}
-              underlineColorAndroid='transparent'
-              onSubmitEditing={() => this.refs.password.focus()}
-              placeholder='Username' />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.rowLabel}>Password</Text>
-            <TextInput
-              ref='password'
-              testID='loginScreenPassword'
-              style={textInputStyle}
-              value={password}
-              editable={editable}
-              keyboardType='default'
-              returnKeyType='go'
-              autoCapitalize='none'
-              autoCorrect={false}
-              secureTextEntry
-              onChangeText={this.handleChangePassword}
-              underlineColorAndroid='transparent'
-              onSubmitEditing={this.handlePressLogin}
-              placeholder='Password' />
-          </View>
-
           <View style={[styles.loginRow]}>
-            <TouchableOpacity testID='loginScreenLoginButton' style={styles.loginButtonWrapper} onPress={this.handlePressLogin}>
+            <TouchableOpacity testID='loginScreenLoginButton' style={styles.loginButtonWrapper} onPress={this.naverLoginStart}>
               <View style={styles.loginButton}>
-                <Text style={styles.loginText}>Sign In</Text>
+                <Text style={styles.loginText}>NAVER LOGIN</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity testID='loginScreenCancelButton' style={styles.loginButtonWrapper} onPress={this.handlePressCancel}>
+            <TouchableOpacity testID='loginScreenCancelButton' style={styles.loginButtonWrapper} onPress={this.fetchProfile}>
               <View style={styles.loginButton}>
-                <Text style={styles.loginText}>Cancel</Text>
+                <Text style={styles.loginText}>Fetch Profile</Text>
               </View>
             </TouchableOpacity>
           </View>
