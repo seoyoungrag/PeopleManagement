@@ -51,7 +51,7 @@ export default class LaunchScreen extends React.Component {
           <View style={styles.centered}>
             <Image source={Images.logoHbm} style={styles.logo} />
             <Text style={styles.sectionText}>
-              {'인력관리'}
+              {'인;풀'}
             </Text>
           </View>
         </ScrollView>
