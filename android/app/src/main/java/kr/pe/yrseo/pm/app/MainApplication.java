@@ -3,6 +3,7 @@ package kr.pe.yrseo.pm.app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.dooboolab.naverlogin.RNNaverLoginPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -24,7 +25,7 @@ import io.invertase.firebase.instanceid.RNFirebaseInstanceIdPackage;
 import io.invertase.firebase.links.RNFirebaseLinksPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
-import io.invertase.firebase.perf.RNFirebasePerformancePackage;
+//import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 
 import com.reactnativenavigation.NavigationApplication;
@@ -59,6 +60,7 @@ public class MainApplication extends NavigationApplication {
   protected List<ReactPackage> getPackages() {
     return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+            new RNNaverLoginPackage(),
         new VectorIconsPackage(),
         new RNFirebasePackage(),
         // add/remove these packages as appropriate
@@ -74,7 +76,7 @@ public class MainApplication extends NavigationApplication {
         new RNFirebaseLinksPackage(),
         new RNFirebaseMessagingPackage(),
         new RNFirebaseNotificationsPackage(),
-        new RNFirebasePerformancePackage(),
+        //new RNFirebasePerformancePackage(),
         new RNFirebaseStoragePackage()
     );
   }
