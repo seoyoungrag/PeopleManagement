@@ -11,6 +11,8 @@ import LoginActions from './login.reducer'
 import { NaverLogin, getProfile } from 'react-native-naver-login';
 import NativeButton from 'apsl-react-native-button';
 
+import firebase from 'react-native-firebase'
+
 const initials = {
   kConsumerKey: '6R2nlOV7VrNuKlVS8JGo',
   kConsumerSecret: 'cChbS0EE_d',
@@ -35,11 +37,28 @@ class LoginScreen extends React.Component {
       topLogo: { width: Metrics.screenWidth }
     }
   }
+  generateFirebaseToken(mail, provider) {
+    var firebaseUid = provider+":"+mail;
+    var additionalClaims = {
+      provider: provider
+    };
+    firebaseUid = 'eyJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImNsYWltcyI6eyJwcmVtaXVtQWNjb3VudCI6dHJ1ZX0sImV4cCI6MTU2MzMzMDcwNSwiaWF0IjoxNTYzMzI3MTA1LCJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay16MTM5ckBwZW9wbGVtYW5hZ2VtZW50LWQwYWJhLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwic3ViIjoiZmlyZWJhc2UtYWRtaW5zZGstejEzOXJAcGVvcGxlbWFuYWdlbWVudC1kMGFiYS5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsInVpZCI6InRydWV6dXJlQG5hdmVyLmNvbSJ9.eBIVqvoxfw4-S4maGzSJtMmJIf1sv_etaQbxCNKY4tD5NmOG1rxLlSQ53rCcswE1ihzHtL2XKDkLfnIh0fyTpIMMOr7PNsDEinh53JsH5rxgLJcHTfhrP3jEn0lW27jJ9rvX7_HziKcbkgLWzzUwomMeAhjGeCu3Ais3YgmSBKgYG6LkOsHmweEqYrpI5wkGqu03mWXMi-58UfeN0EgYMNNeUBI3DstpFGQzSf0n4T5UOc0BJIMA1UnJw9L3cMaA88WPb5lItlWDJB5fMlhPmM5Rg937A6Z5UAyBwrYFieuw9wdxIIyh6aSzOU_tRkoWk3AywFLQBNkMaPtvdfg2vw';
+    return firebase.auth().signInWithCustomToken(firebaseUid);
+  }
+
+  handleSignUp = () => {
+    firebase
+      .auth()
+      .signInWithCustomToken(this.state.email, this.state.password)
+      .then(() => this.props.navigation.navigate('Main'))
+      .catch(error => this.setState({ errorMessage: error.message }))
+  }
 
   // 로그인 후 내 프로필 가져오기.
   fetchProfile = async() => {
     const profileResult = await getProfile(this.state.theToken);
     console.log(profileResult);
+    this.generateFirebaseToken(profileResult.response.email);
     if (profileResult.resultcode === '024') {
       Alert.alert('로그인 실패', profileResult.message);
       return;
