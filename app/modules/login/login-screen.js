@@ -9,6 +9,8 @@ import { Images, Metrics } from '../../shared/themes'
 import LoginActions from './login.reducer'
 
 import { NaverLogin, getProfile } from 'react-native-naver-login';
+import RNKakaoLogins from 'react-native-kakao-logins';
+
 import NativeButton from 'apsl-react-native-button';
 
 import firebase from 'react-native-firebase'
@@ -33,6 +35,7 @@ class LoginScreen extends React.Component {
     super(props)
     Navigation.events().bindComponent(this)
     this.state = {
+      isKakaoLogging: false,
       isNaverLoggingin: false,
       theToken: 'token has not fetched',
       visibleHeight: Metrics.screenHeight,
@@ -43,6 +46,7 @@ class LoginScreen extends React.Component {
     this.props.getJWTToken(mail);
     const { JWTToken } = this.props
     if(JWTToken){
+      console.warn("generateFirebaseToken")
       return firebase.auth().signInWithCustomToken(JWTToken)
         .then(() => entitiesScreen() )
         .catch(error => this.setState({ errorMessage: error.message }));
@@ -71,7 +75,7 @@ class LoginScreen extends React.Component {
   
   // 네이버 로그인 시작.
   naverLoginStart = async() => {
-    console.log('  naverLoginStarted');
+    console.log('  naverLoginStarted ');
     NaverLogin.login(initials, (err, token) => {
       console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
       this.setState({ theToken: token });
@@ -81,6 +85,42 @@ class LoginScreen extends React.Component {
         return;
       }
       this.fetchProfile();
+    });
+  }
+
+  // 카카오 로그인 시작.
+  kakaoLogin = async() => {
+    console.log('   kakaoLogin   ');
+    RNKakaoLogins.login((err, result) => {
+      if (err) {
+        console.log(err.toString());
+        return;
+      }
+      this.getProfile();
+    });
+  }
+
+  kakaoLogout = async() => {
+    console.log('   kakaoLogout   ');
+    RNKakaoLogins.logout((err, result) => {
+      if (err) {
+        console.log(err.toString());
+        return;
+      }
+      console.warn(result);
+    });
+  }
+
+  // 로그인 후 내 프로필 가져오기.
+  getProfile = async() => {
+    console.log('getKakaoProfile');
+    RNKakaoLogins.getProfile((err, result) => {
+      if (err) {
+        console.log(err.toString());
+        return;
+      }
+      this.generateFirebaseToken(result.id);
+      //console.warn(result);
     });
   }
 
@@ -137,6 +177,25 @@ class LoginScreen extends React.Component {
               
             </NativeButton>
  */}
+ 
+          <NativeButton
+            isLoading={this.state.isNaverLoggingin}
+            onPress={() => this.kakaoLogin()}
+            activeOpacity={0.5}
+            style={styles.loginButtonWrapper}
+          >LOGIN</NativeButton>
+          <Text>{this.state.token}</Text>
+          <NativeButton
+            onPress={() => this.kakaoLogout()}
+            activeOpacity={0.5}
+            style={styles.loginButtonWrapper}
+          >Logout</NativeButton>
+          <NativeButton
+            isLoading={this.state.isKakaoLogging}
+            onPress={() => this.getProfile()}
+            activeOpacity={0.5}
+            style={styles.loginButtonWrapper}
+          >getProfile</NativeButton>
           </View>
         </View>
       </ScrollView>

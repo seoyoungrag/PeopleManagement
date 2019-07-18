@@ -1,8 +1,15 @@
 package kr.pe.yrseo.pm.app;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.util.Base64;
+import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.dooboolab.kakaologins.RNKakaoLoginsPackage;
 import com.dooboolab.naverlogin.RNNaverLoginPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -32,6 +39,8 @@ import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,8 +67,12 @@ public class MainApplication extends NavigationApplication {
   }
 
   protected List<ReactPackage> getPackages() {
+    String keyHash = getKeyHash(this);
+    Log.e("yrseo", "디버그 keyHash" + keyHash);
+
     return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+            new RNKakaoLoginsPackage(),
             new RNNaverLoginPackage(),
         new VectorIconsPackage(),
         new RNFirebasePackage(),
@@ -79,5 +92,27 @@ public class MainApplication extends NavigationApplication {
         //new RNFirebasePerformancePackage(),
         new RNFirebaseStoragePackage()
     );
+  }
+  public String getKeyHash(final Context context) {
+    PackageInfo packageInfo = null;
+    try {
+      packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+    } catch (PackageManager.NameNotFoundException e) {
+      e.printStackTrace();
+    }
+    if (packageInfo == null) {
+      return null;
+    }
+
+    for (Signature signature : packageInfo.signatures) {
+      try {
+        MessageDigest md = MessageDigest.getInstance("SHA");
+        md.update(signature.toByteArray());
+        return Base64.encodeToString(md.digest(), Base64.NO_WRAP);
+      } catch (NoSuchAlgorithmException e) {
+        Log.e("yrseo", "디버그 keyHash" + signature, e);
+      }
+    }
+    return null;
   }
 }
