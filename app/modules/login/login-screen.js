@@ -12,6 +12,7 @@ import { NaverLogin, getProfile } from 'react-native-naver-login';
 import NativeButton from 'apsl-react-native-button';
 
 import firebase from 'react-native-firebase'
+import { loginScreen, registerScreen, forgotPasswordScreen, changePasswordScreen, settingsScreen, entitiesScreen } from '../../navigation/layouts'
 
 const initials = {
   kConsumerKey: '6R2nlOV7VrNuKlVS8JGo',
@@ -24,7 +25,8 @@ class LoginScreen extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
     fetching: PropTypes.bool,
-    attemptLogin: PropTypes.func
+    attemptLogin: PropTypes.func,
+    getJWTToken: PropTypes.func
   }
 
   constructor (props) {
@@ -38,17 +40,16 @@ class LoginScreen extends React.Component {
     }
   }
   generateFirebaseToken(mail, provider) {
-    /*
-    var firebaseUid = provider+":"+mail;
-    var additionalClaims = {
-      provider: provider
-    };
-    */
     this.props.getJWTToken(mail);
     const { JWTToken } = this.props
-    return firebase.auth().signInWithCustomToken(JWTToken);
+    if(JWTToken){
+      return firebase.auth().signInWithCustomToken(JWTToken)
+        .then(() => entitiesScreen() )
+        .catch(error => this.setState({ errorMessage: error.message }));
+      }
   }
 
+/*
   handleSignUp = () => {
     firebase
       .auth()
@@ -56,7 +57,7 @@ class LoginScreen extends React.Component {
       .then(() => this.props.navigation.navigate('Main'))
       .catch(error => this.setState({ errorMessage: error.message }))
   }
-
+*/
   // 로그인 후 내 프로필 가져오기.
   fetchProfile = async() => {
     const profileResult = await getProfile(this.state.theToken);
@@ -70,14 +71,16 @@ class LoginScreen extends React.Component {
   
   // 네이버 로그인 시작.
   naverLoginStart = async() => {
-    console.log('  naverLoginStart  ed');
+    console.log('  naverLoginStarted');
     NaverLogin.login(initials, (err, token) => {
       console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
       this.setState({ theToken: token });
       if (err) {
         console.log(err);
+        this.setState({ errorMessage: err })
         return;
       }
+      this.fetchProfile();
     });
   }
 
@@ -127,11 +130,13 @@ class LoginScreen extends React.Component {
                 <Text style={styles.loginText}>NAVER LOGIN</Text>
               
             </NativeButton>
+{/*
             <NativeButton testID='loginScreenCancelButton' activeOpacity={0.5} isLoading={this.state.isNaverLoggingin} style={styles.loginButtonWrapper} onPress={this.fetchProfile}>
               
                 <Text style={styles.loginText}>Fetch Profile</Text>
               
             </NativeButton>
+ */}
           </View>
         </View>
       </ScrollView>
@@ -152,7 +157,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     attemptLogin: (username, password) => dispatch(LoginActions.loginRequest(username, password)),
     logout: () => dispatch(LoginActions.logoutRequest()),
-    getJWTToken: (email) => dispatch(LoginActions.getJWTToken(email))
+    getJWTToken: (email) => dispatch(LoginActions.requestToken(email))
   }
 }
 

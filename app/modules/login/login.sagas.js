@@ -42,12 +42,14 @@ export function * loginLoad (api) {
 }
 
 export function * getJWTToken (api, { email }) {
-
   const response = yield call(api.getJWTToken, email)
-
   // success?
   if (response.ok) {
-    yield put(LoginActions.loginGetJWTToken(response.data))
+    yield call(api.setAuthToken, response.data.token)
+    //yield put(LoginActions.loginSuccess(response.data.token))
+    yield put(LoginActions.successToken(response.data.token))
+    //yield put(AccountActions.accountRequest())
+    //yield put({ type: 'RELOGIN_OK' })
   } else {
     yield put(LoginActions.loginFailure('WRONG'))
   }
