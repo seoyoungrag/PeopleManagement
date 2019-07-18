@@ -17,7 +17,7 @@ import { UserTypes } from '../../shared/reducers/user.reducer'
 /* ------------- Sagas ------------- */
 
 import { startup } from './startup.saga'
-import { login, logout, loginLoad } from '../../modules/login/login.sagas'
+import { login, logout, loginLoad, getJWTToken } from '../../modules/login/login.sagas'
 import { register } from '../../modules/account/register/register.sagas'
 import { forgotPassword } from '../../modules/account/password-reset/forgot-password.sagas'
 import { changePassword } from '../../modules/account/password/change-password.sagas'
@@ -45,6 +45,9 @@ export default function * root () {
     takeLatest(RegisterTypes.REGISTER_REQUEST, register, api),
     takeLatest(ForgotPasswordTypes.FORGOT_PASSWORD_REQUEST, forgotPassword, api),
     takeLatest(ChangePasswordTypes.CHANGE_PASSWORD_REQUEST, changePassword, api),
+
+    takeLatest(LoginTypes.LOGIN_GET_JWT_TOKEN, getJWTToken, api),
+
     // ignite-jhipster-saga-redux-connect-needle
 
     takeLatest(UserTypes.USER_REQUEST, getUser, api),

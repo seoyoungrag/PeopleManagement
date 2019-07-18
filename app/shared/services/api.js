@@ -51,6 +51,7 @@ const create = (baseURL = AppConfig.apiUrl) => {
   const createUser = (user) => api.post('api/users', user)
   const updateUser = (user) => api.put('api/users', user)
   const deleteUser = (userId) => api.delete('api/users/' + userId)
+  const getJWTToken = (email) => api.get('api/createToken/' + email)
   // ignite-jhipster-api-method-needle
 
   // ------
@@ -80,7 +81,8 @@ const create = (baseURL = AppConfig.apiUrl) => {
     forgotPassword,
     getAccount,
     updateAccount,
-    changePassword
+    changePassword,
+    getJWTToken
   }
 }
 

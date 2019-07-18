@@ -9,7 +9,8 @@ const { Types, Creators } = createActions({
   logoutRequest: null,
   logoutSuccess: null,
   loginLoad: [],
-  loginLoadSuccess: []
+  loginLoadSuccess: [],
+  loginGetJWTToken: null
 })
 
 export const LoginTypes = Types
@@ -21,7 +22,8 @@ export const INITIAL_STATE = Immutable({
   authToken: null,
   error: null,
   fetching: false,
-  loading: false
+  loading: false,
+  JWTToken: null
 })
 
 /* ------------- Reducers ------------- */
@@ -48,6 +50,12 @@ export const logoutRequest = state => INITIAL_STATE
 // we've logged out
 export const logoutSuccess = state => INITIAL_STATE
 
+//네이버 로그인 후 백엔드 서버로부터 토큰을 가져온다.
+export const getJWTToken = (state, data) => {
+  const { JWTToken } = data
+  state.merge({ fetching: false, error: null, JWTToken })
+}
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -57,7 +65,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOGIN_LOAD]: load,
   [Types.LOGIN_LOAD_SUCCESS]: loadSuccess,
   [Types.LOGOUT_REQUEST]: logoutRequest,
-  [Types.LOGOUT_SUCCESS]: logoutSuccess
+  [Types.LOGOUT_SUCCESS]: logoutSuccess,
+  [TYpes.LOGIN_GET_JWT_TOKEN]: getJWTToken
 
 })
 

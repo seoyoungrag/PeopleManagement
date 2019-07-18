@@ -38,12 +38,15 @@ class LoginScreen extends React.Component {
     }
   }
   generateFirebaseToken(mail, provider) {
+    /*
     var firebaseUid = provider+":"+mail;
     var additionalClaims = {
       provider: provider
     };
-    firebaseUid = 'eyJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImNsYWltcyI6eyJwcmVtaXVtQWNjb3VudCI6dHJ1ZX0sImV4cCI6MTU2MzMzMDcwNSwiaWF0IjoxNTYzMzI3MTA1LCJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay16MTM5ckBwZW9wbGVtYW5hZ2VtZW50LWQwYWJhLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwic3ViIjoiZmlyZWJhc2UtYWRtaW5zZGstejEzOXJAcGVvcGxlbWFuYWdlbWVudC1kMGFiYS5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsInVpZCI6InRydWV6dXJlQG5hdmVyLmNvbSJ9.eBIVqvoxfw4-S4maGzSJtMmJIf1sv_etaQbxCNKY4tD5NmOG1rxLlSQ53rCcswE1ihzHtL2XKDkLfnIh0fyTpIMMOr7PNsDEinh53JsH5rxgLJcHTfhrP3jEn0lW27jJ9rvX7_HziKcbkgLWzzUwomMeAhjGeCu3Ais3YgmSBKgYG6LkOsHmweEqYrpI5wkGqu03mWXMi-58UfeN0EgYMNNeUBI3DstpFGQzSf0n4T5UOc0BJIMA1UnJw9L3cMaA88WPb5lItlWDJB5fMlhPmM5Rg937A6Z5UAyBwrYFieuw9wdxIIyh6aSzOU_tRkoWk3AywFLQBNkMaPtvdfg2vw';
-    return firebase.auth().signInWithCustomToken(firebaseUid);
+    */
+    this.props.getJWTToken(mail);
+    const { JWTToken } = this.props
+    return firebase.auth().signInWithCustomToken(JWTToken);
   }
 
   handleSignUp = () => {
@@ -140,14 +143,16 @@ const mapStateToProps = (state) => {
   return {
     account: state.account.account,
     fetching: state.login.fetching,
-    error: state.login.error
+    error: state.login.error,
+    JWTToken: state.login.JWTToken
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     attemptLogin: (username, password) => dispatch(LoginActions.loginRequest(username, password)),
-    logout: () => dispatch(LoginActions.logoutRequest())
+    logout: () => dispatch(LoginActions.logoutRequest()),
+    getJWTToken: (email) => dispatch(LoginActions.getJWTToken(email))
   }
 }
 

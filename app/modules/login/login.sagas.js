@@ -40,3 +40,15 @@ export function * loginLoad (api) {
   }
   yield put(LoginActions.loginLoadSuccess())
 }
+
+export function * getJWTToken (api, { email }) {
+
+  const response = yield call(api.getJWTToken, email)
+
+  // success?
+  if (response.ok) {
+    yield put(LoginActions.loginGetJWTToken(response.data))
+  } else {
+    yield put(LoginActions.loginFailure('WRONG'))
+  }
+}
