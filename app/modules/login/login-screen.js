@@ -14,7 +14,7 @@ import RNKakaoLogins from 'react-native-kakao-logins';
 import NativeButton from 'apsl-react-native-button';
 
 import firebase from 'react-native-firebase'
-import { loginScreen, registerScreen, forgotPasswordScreen, changePasswordScreen, settingsScreen, entitiesScreen } from '../../navigation/layouts'
+import { loginScreen, registerScreen, forgotPasswordScreen, changePasswordScreen, settingsScreen, entitiesScreen, mainScreen } from '../../navigation/layouts'
 
 const initials = {
   kConsumerKey: '6R2nlOV7VrNuKlVS8JGo',
@@ -48,7 +48,7 @@ class LoginScreen extends React.Component {
     if(JWTToken){
       console.warn("generateFirebaseToken")
       return firebase.auth().signInWithCustomToken(JWTToken)
-        .then(() => entitiesScreen() )
+        .then(() => mainScreen() )
         .catch(error => this.setState({ errorMessage: error.message }));
       }
   }
@@ -97,17 +97,6 @@ class LoginScreen extends React.Component {
         return;
       }
       this.getProfile();
-    });
-  }
-
-  kakaoLogout = async() => {
-    console.log('   kakaoLogout   ');
-    RNKakaoLogins.logout((err, result) => {
-      if (err) {
-        console.log(err.toString());
-        return;
-      }
-      console.warn(result);
     });
   }
 
@@ -185,17 +174,6 @@ class LoginScreen extends React.Component {
             style={styles.loginButtonWrapper}
           >LOGIN</NativeButton>
           <Text>{this.state.token}</Text>
-          <NativeButton
-            onPress={() => this.kakaoLogout()}
-            activeOpacity={0.5}
-            style={styles.loginButtonWrapper}
-          >Logout</NativeButton>
-          <NativeButton
-            isLoading={this.state.isKakaoLogging}
-            onPress={() => this.getProfile()}
-            activeOpacity={0.5}
-            style={styles.loginButtonWrapper}
-          >getProfile</NativeButton>
           </View>
         </View>
       </ScrollView>

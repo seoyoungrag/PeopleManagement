@@ -3,12 +3,16 @@ import { ScrollView, Text, Image, View } from "react-native";
 import { Navigation } from "react-native-navigation";
 
 import { Images } from "../../shared/themes";
-import styles from "./launch-screen.styles";
-import { loginScreen, registerScreen, forgotPasswordScreen, changePasswordScreen, settingsScreen, entitiesScreen, mainScreen } from '../../navigation/layouts'
+import styles from "./main-screen.styles";
+import { NaverLogin, getProfile } from 'react-native-naver-login';
+import RNKakaoLogins from 'react-native-kakao-logins';
 
+import NativeButton from 'apsl-react-native-button';
 import firebase from 'react-native-firebase'
 
-export default class LaunchScreen extends React.Component {
+import { loginScreen, registerScreen, forgotPasswordScreen, changePasswordScreen, settingsScreen, entitiesScreen, mainScreen } from '../../navigation/layouts'
+
+export default class MainScreen extends React.Component {
   constructor(props) {
     super(props);
     Navigation.events().bindComponent(this);
@@ -23,6 +27,21 @@ export default class LaunchScreen extends React.Component {
       }
     });
   }
+  
+  logout = async() => {
+    console.log('   kakao/naverLogout    ');
+    NaverLogin.logout();
+    RNKakaoLogins.logout((err, result) => {
+      if (err) {
+        console.log(err.toString());
+        //return;
+      }
+      console.warn(result);
+      firebase.auth().signOut();
+      loginScreen();
+    });
+  }
+
   showSideMenu() {
     Navigation.mergeOptions(this.props.componentId, {
       sideMenu: {
@@ -38,16 +57,6 @@ export default class LaunchScreen extends React.Component {
   }
 
   componentDidMount(){
-    console.warn(this.state);
-    setTimeout(function(){
-      var authFlag = false;
-      firebase.auth().onAuthStateChanged(user => {
-        console.warn(user);
-        authFlag = user ? true : false ;
-      })
-      console.warn(authFlag);
-      authFlag == true? mainScreen() : loginScreen() ;
-      }, 3000)
   }
 
   render() {
@@ -59,11 +68,12 @@ export default class LaunchScreen extends React.Component {
           resizeMode="stretch"
         />
         <ScrollView style={styles.container} contentContainerStyle={{flexGrow:1}}>
-          <View style={styles.centered}>
-            <Image source={Images.logoHbm} style={styles.logo} />
-            <Text style={styles.sectionText}>
-              {'인;풀'}
-            </Text>
+          <View style={styles.centered}>            
+          <NativeButton
+            onPress={() => this.logout()}
+            activeOpacity={0.5}
+            style={styles.loginButtonWrapper}
+          >Logout</NativeButton>
           </View>
         </ScrollView>
       </View>

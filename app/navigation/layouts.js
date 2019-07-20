@@ -17,6 +17,7 @@ import RegisterScreen from '../modules/account/register/register-screen'
 import ForgotPasswordScreen from '../modules/account/password-reset/forgot-password-screen'
 import ChangePasswordScreen from '../modules/account/password/change-password-screen'
 import EntitiesScreen from '../modules/entities/entities-screen'
+import MainScreen from '../modules/main/main-screen'
 // ignite-jhipster-navigation-import-needle
 
 export const LOGIN_SCREEN = 'nav.LoginScreen'
@@ -27,6 +28,7 @@ export const SETTINGS_SCREEN = 'nav.SettingsScreen'
 export const LAUNCH_SCREEN = 'nav.LaunchScreen'
 export const DRAWER_CONTENT = 'nav.DrawerContent'
 export const ENTITIES_SCREEN = 'nav.EntitiesScreen'
+export const MAIN_SCREEN = 'nav.MainScreen'
 // ignite-jhipster-navigation-declaration-needle
 
 const store = createStore()
@@ -101,6 +103,7 @@ export function registerScreensAndStartApp () {
   Navigation.registerComponentWithRedux(DRAWER_CONTENT, () => DrawerContent, Provider, store)
   Navigation.registerComponentWithRedux(LAUNCH_SCREEN, () => LaunchScreen, Provider, store)
   Navigation.registerComponentWithRedux(ENTITIES_SCREEN, () => EntitiesScreen, Provider, store)
+  Navigation.registerComponentWithRedux(MAIN_SCREEN, () => MainScreen, Provider, store)
   // ignite-jhipster-navigation-registration-needle
 
   Navigation.events().registerAppLaunchedListener(() => {
@@ -214,6 +217,20 @@ export const entitiesScreen = () => Navigation.push('center', {
       topBar: {
         title: {
           text: 'Entities',
+          color: Colors.snow
+        }
+      }
+    }
+  }
+})
+
+export const mainScreen = () => Navigation.push('center', {
+  component: {
+    name: MAIN_SCREEN,
+    options: {
+      topBar: {
+        title: {
+          text: 'Main',
           color: Colors.snow
         }
       }
