@@ -41,6 +41,25 @@ export default StyleSheet.create({
     paddingVertical: Metrics.doubleBaseMargin,
     paddingHorizontal: Metrics.doubleBaseMargin
   },
+  usePromise: {
+    alignItems:'flex-start', 
+    borderWidth:1, 
+    borderColor: "#e5e5e5",
+    borderRadius: 5,
+    width: "85%",
+    marginTop: 20,
+    paddingTop: 10,
+    marginLeft: Metrics.doubleBaseMargin/2,
+    marginRight: Metrics.doubleBaseMargin/2,
+    //paddingVertical: Metrics.doubleBaseMargin,
+    //paddingHorizontal: Metrics.doubleBaseMargin
+  },
+  usePromiseCheck: {
+    borderWidth: 0,
+    marginTop: 0,
+    marginBottom: 0,
+    paddingTop: 0
+  },
   rowLabel: {
     color: Colors.charcoal
   },
