@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Alert, Image, View, ScrollView, Text, TextInput, TouchableOpacity } from 'react-native'
+import { Alert, Image, View, ScrollView, Text, TextInput, TouchableOpacity, Button } from 'react-native'
 import { Navigation } from 'react-native-navigation'
 import { connect } from 'react-redux'
 
@@ -14,12 +14,12 @@ import RNKakaoLogins from 'react-native-kakao-logins';
 import NativeButton from 'apsl-react-native-button';
 
 import firebase from 'react-native-firebase'
-import { loginScreen, registerScreen, forgotPasswordScreen, changePasswordScreen, settingsScreen, entitiesScreen, mainScreen } from '../../navigation/layouts'
+import { loginScreen, registerScreen, forgotPasswordScreen, changePasswordScreen, settingsScreen, entitiesScreen, mainScreen, emailLoginScreen, signUpScreen } from '../../navigation/layouts'
 
 const initials = {
   kConsumerKey: '6R2nlOV7VrNuKlVS8JGo',
   kConsumerSecret: 'cChbS0EE_d',
-  kServiceAppName: '인풀',
+  kServiceAppName: '인품',
   kServiceAppUrlScheme: 'kr.pe.yrseo.pm.app', // only for iOS
 };
 
@@ -39,7 +39,10 @@ class LoginScreen extends React.Component {
       isNaverLoggingin: false,
       theToken: 'token has not fetched',
       visibleHeight: Metrics.screenHeight,
-      topLogo: { width: Metrics.screenWidth }
+      topLogo: { width: Metrics.screenWidth },
+      email: '', 
+      password: '', 
+      errorMessage: null 
     }
   }
   generateFirebaseToken(mail, provider) {
@@ -53,20 +56,12 @@ class LoginScreen extends React.Component {
       }
   }
 
-/*
-  handleSignUp = () => {
-    firebase
-      .auth()
-      .signInWithCustomToken(this.state.email, this.state.password)
-      .then(() => this.props.navigation.navigate('Main'))
-      .catch(error => this.setState({ errorMessage: error.message }))
-  }
-*/
   // 로그인 후 내 프로필 가져오기.
-  fetchProfile = async() => {
+  fetchProfile = async(token) => {
     const profileResult = await getProfile(this.state.theToken);
     console.log(profileResult);
-    this.generateFirebaseToken(profileResult.response.email);
+    //this.generateFirebaseToken(profileResult.response.email);
+    this.generateFirebaseToken(token);
     if (profileResult.resultcode === '024') {
       Alert.alert('로그인 실패', profileResult.message);
       return;
@@ -84,7 +79,7 @@ class LoginScreen extends React.Component {
         this.setState({ errorMessage: err })
         return;
       }
-      this.fetchProfile();
+      this.fetchProfile(token);
     });
   }
 
@@ -111,6 +106,25 @@ class LoginScreen extends React.Component {
       this.generateFirebaseToken(result.id);
       //console.warn(result);
     });
+  }
+
+  handleLogin = async() => {
+    const { email, password } = this.state
+    var isLogined = await firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch(error => this.setState({ errorMessage: error.message }))
+    isLogined.user ? mainScreen() : this.setState({ errorMessage: "LOGIN FAILED" })
+  }
+  
+ forgotPassword = (yourEmail) => {
+    firebase.auth().sendPasswordResetEmail(yourEmail)
+      .then(function (user) {
+        Alert.alert('Please check your email...')
+      }).catch(function (e) {
+        Alert.alert('등록안된 계정입니다.');
+        console.log(e)
+      })
   }
 
   componentWillReceiveProps (newProps) {
@@ -150,30 +164,37 @@ class LoginScreen extends React.Component {
     const editable = !fetching
     const textInputStyle = editable ? styles.textInput : styles.textInputReadonly
     return (
-      <ScrollView contentContainerStyle={{ justifyContent: 'center' }} style={[styles.container, { height: this.state.visibleHeight }]} keyboardShouldPersistTaps='always'>
-        <Image source={Images.logoLogin} style={[styles.topLogo, this.state.topLogo]} />
+      <ScrollView style={styles.loginContainer} contentContainerStyle={{flexGrow:1}} keyboardShouldPersistTaps='always'>
+        <View style={styles.centered}>
+          <Text style={styles.loginMainText}>
+            {'인 ; 품'}
+          </Text>
+          <Text style={styles.loginSubText}>
+            {'내가 나를 찾는 우리의 공간'}
+          </Text>
+        </View>
+        {/*<Image source={Images.logoLogin} style={[styles.topLogo, this.state.topLogo]} />*/}
         <View style={styles.form}>
           <View style={[styles.loginRow]}>
             <NativeButton testID='loginScreenLoginButton' activeOpacity={0.5} isLoading={this.state.isNaverLoggingin} style={styles.loginButtonWrapper} onPress={this.naverLoginStart}>
-              
-                <Text style={styles.loginText}>NAVER LOGIN</Text>
-              
+            네이버 로그인
             </NativeButton>
-{/*
-            <NativeButton testID='loginScreenCancelButton' activeOpacity={0.5} isLoading={this.state.isNaverLoggingin} style={styles.loginButtonWrapper} onPress={this.fetchProfile}>
-              
-                <Text style={styles.loginText}>Fetch Profile</Text>
-              
-            </NativeButton>
- */}
- 
-          <NativeButton
-            isLoading={this.state.isNaverLoggingin}
-            onPress={() => this.kakaoLogin()}
-            activeOpacity={0.5}
-            style={styles.loginButtonWrapper}
-          >LOGIN</NativeButton>
-          <Text>{this.state.token}</Text>
+            <NativeButton
+              isLoading={this.state.isNaverLoggingin}
+              onPress={() => this.kakaoLogin()}
+              activeOpacity={0.5}
+              style={styles.loginButtonWrapper}
+            >카카오 로그인</NativeButton>
+            <Text>{this.state.token}</Text>
+            <View style={[styles.loginRow,{flexDirection:"row"}]}>
+              <NativeButton onPress={emailLoginScreen} 
+              activeOpacity={0.5}
+              style={styles.emailLoginButtonWrapper}
+              textStyle={styles.loginButtonText}>이메일로 로그인</NativeButton>
+              <NativeButton onPress={signUpScreen} 
+              activeOpacity={0.5} textStyle={styles.loginButtonText}
+              style={styles.emailLoginButtonWrapper}>이메일로 가입하기</NativeButton>
+            </View>
           </View>
         </View>
       </ScrollView>

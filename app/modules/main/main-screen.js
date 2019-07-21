@@ -29,6 +29,7 @@ export default class MainScreen extends React.Component {
   }
   
   logout = async() => {
+    /*
     console.log('   kakao/naverLogout    ');
     NaverLogin.logout();
     RNKakaoLogins.logout((err, result) => {
@@ -37,9 +38,10 @@ export default class MainScreen extends React.Component {
         //return;
       }
       console.warn(result);
-      firebase.auth().signOut();
-      loginScreen();
     });
+    */
+    firebase.auth().signOut();
+    loginScreen();
   }
 
   showSideMenu() {

@@ -44,6 +44,10 @@ const ApplicationStyles = {
       ...Fonts.style.h2,
       fontSize: 14,
       color: Colors.text
+    },
+    launchText: {
+      ...Fonts.style.h6,
+      color: Colors.snow
     }
   },
   darkLabelContainer: {

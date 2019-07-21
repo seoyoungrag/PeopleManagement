@@ -38,7 +38,6 @@ export default class LaunchScreen extends React.Component {
   }
 
   componentDidMount(){
-    console.warn(this.state);
     setTimeout(function(){
       var authFlag = false;
       firebase.auth().onAuthStateChanged(user => {
@@ -61,8 +60,8 @@ export default class LaunchScreen extends React.Component {
         <ScrollView style={styles.container} contentContainerStyle={{flexGrow:1}}>
           <View style={styles.centered}>
             <Image source={Images.logoHbm} style={styles.logo} />
-            <Text style={styles.sectionText}>
-              {'인;풀'}
+            <Text style={styles.launchText}>
+              {'인 ; 품'}
             </Text>
           </View>
         </ScrollView>

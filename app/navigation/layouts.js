@@ -18,6 +18,8 @@ import ForgotPasswordScreen from '../modules/account/password-reset/forgot-passw
 import ChangePasswordScreen from '../modules/account/password/change-password-screen'
 import EntitiesScreen from '../modules/entities/entities-screen'
 import MainScreen from '../modules/main/main-screen'
+import EmailLoginScreen from '../modules/emailLogin/email-login-screen'
+import SignUpScreen from '../modules/signup/signup-screen'
 // ignite-jhipster-navigation-import-needle
 
 export const LOGIN_SCREEN = 'nav.LoginScreen'
@@ -29,6 +31,8 @@ export const LAUNCH_SCREEN = 'nav.LaunchScreen'
 export const DRAWER_CONTENT = 'nav.DrawerContent'
 export const ENTITIES_SCREEN = 'nav.EntitiesScreen'
 export const MAIN_SCREEN = 'nav.MainScreen'
+export const EMAIL_LOGIN_SCREEN = 'nav.EmailLoginScreen'
+export const SIGN_UP_SCREEN = 'nav.SignUpScreen'
 // ignite-jhipster-navigation-declaration-needle
 
 const store = createStore()
@@ -104,6 +108,8 @@ export function registerScreensAndStartApp () {
   Navigation.registerComponentWithRedux(LAUNCH_SCREEN, () => LaunchScreen, Provider, store)
   Navigation.registerComponentWithRedux(ENTITIES_SCREEN, () => EntitiesScreen, Provider, store)
   Navigation.registerComponentWithRedux(MAIN_SCREEN, () => MainScreen, Provider, store)
+  Navigation.registerComponentWithRedux(EMAIL_LOGIN_SCREEN, () => EmailLoginScreen, Provider, store)
+  Navigation.registerComponentWithRedux(SIGN_UP_SCREEN, () => SignUpScreen, Provider, store)
   // ignite-jhipster-navigation-registration-needle
 
   Navigation.events().registerAppLaunchedListener(() => {
@@ -140,7 +146,8 @@ export function registerScreensAndStartApp () {
   })
 }
 
-export const loginScreen = () => Navigation.showModal({
+//export const loginScreen = () => Navigation.showModal({
+export const loginScreen = () => Navigation.push('center', {
   stack: {
     children: [{
       component: {
@@ -149,6 +156,42 @@ export const loginScreen = () => Navigation.showModal({
           topBar: {
             visible: false,
             drawBehind: true
+          }
+        }
+      }
+    }]
+  }
+})
+
+export const emailLoginScreen = () => Navigation.push('center', {
+  stack: {
+    children: [{
+      component: {
+        name: EMAIL_LOGIN_SCREEN,
+        options: {
+          topBar: {
+            title: {
+              text: '이메일로 로그인',
+              color: Colors.snow
+            }
+          }
+        }
+      }
+    }]
+  }
+})
+
+export const signUpScreen = () => Navigation.push('center', {
+  stack: {
+    children: [{
+      component: {
+        name: SIGN_UP_SCREEN,
+        options: {
+          topBar: {
+            title: {
+              text: '이메일로 가입하기',
+              color: Colors.snow
+            }
           }
         }
       }
@@ -232,7 +275,9 @@ export const mainScreen = () => Navigation.push('center', {
         title: {
           text: 'Main',
           color: Colors.snow
-        }
+        },
+          "visible": false,
+          "drawBehind": true
       }
     }
   }

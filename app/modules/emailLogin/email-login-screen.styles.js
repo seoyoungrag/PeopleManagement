@@ -10,22 +10,6 @@ export default StyleSheet.create({
     backgroundColor: Colors.transparent
     //backgroundColor: "#A62C2C"
   },
-  loginMainText: {
-    ...Fonts.style.h1,
-    color: "#ff6300"
-  },
-  loginSubText: {
-    ...Fonts.style.h4,
-    color: "#ff6300"
-  },
-  loginButtonText: {
-    fontSize: Fonts.size.small
-  },
-  centered: {
-    flex: 1,
-    justifyContent:"center",
-    alignItems: 'center'
-  },
   form: {
     flex: 1,
     backgroundColor: Colors.snow,
@@ -40,22 +24,39 @@ export default StyleSheet.create({
     color: Colors.charcoal
   },
   textInput: {
+    borderRadius: 5,
     height: 40,
-    color: Colors.coal
+    color: Colors.coal,
+    borderColor: "#dbdbdb",
+    backgroundColor: "#ffffff",
+    borderWidth: 1,
+    marginTop: 5,
+    marginBottom: 5
+  },
+  loginButtonText: {
+    fontSize: Fonts.size.medium,
+    color: Colors.snow
+  },
+  pwChangedButtonText: {
+    fontSize: Fonts.size.medium,
+    color: "#afafaf",
+    textDecorationLine: 'underline'
+  },
+  emailLoginButtonWrapper: {
+    flex: 1,
+    borderWidth: 0
   },
   textInputReadonly: {
     height: 40,
     color: Colors.steel
   },
   loginRow: {
-    padding: Metrics.doubleBaseMargin,
+    paddingBottom: Metrics.doubleBaseMargin,
     paddingHorizontal: Metrics.doubleBaseMargin
   },
-  emailLoginButtonWrapper: {
-    flex: 1,
-    borderWidth: 0
-  },
   loginButtonWrapper: {
+    backgroundColor: "#ff6300",
+    borderWidth: 0,
     flex: 1
   },
   loginButton: {

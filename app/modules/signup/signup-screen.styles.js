@@ -10,21 +10,26 @@ export default StyleSheet.create({
     backgroundColor: Colors.transparent
     //backgroundColor: "#A62C2C"
   },
-  loginMainText: {
-    ...Fonts.style.h1,
-    color: "#ff6300"
-  },
-  loginSubText: {
-    ...Fonts.style.h4,
-    color: "#ff6300"
-  },
-  loginButtonText: {
-    fontSize: Fonts.size.small
-  },
   centered: {
-    flex: 1,
+    flex: 2,
     justifyContent:"center",
     alignItems: 'center'
+  },
+  signUpMainText: {
+    ...Fonts.style.h6,
+    color:"#222222"
+  },
+  signUpSubText: {
+    ...Fonts.style.description,
+    color:"#222222"
+  },
+  loginButtonText: {
+    fontSize: Fonts.size.medium,
+    color: Colors.snow
+  },
+  container: {
+    paddingTop: 70,
+    backgroundColor: Colors.jhipsterBlue
   },
   form: {
     flex: 1,
@@ -40,22 +45,26 @@ export default StyleSheet.create({
     color: Colors.charcoal
   },
   textInput: {
+    borderRadius: 5,
     height: 40,
-    color: Colors.coal
+    color: Colors.coal,
+    borderColor: "#dbdbdb",
+    backgroundColor: "#ffffff",
+    borderWidth: 1,
+    marginTop: 5,
+    marginBottom: 5
   },
   textInputReadonly: {
     height: 40,
     color: Colors.steel
   },
   loginRow: {
-    padding: Metrics.doubleBaseMargin,
+    paddingBottom: Metrics.doubleBaseMargin,
     paddingHorizontal: Metrics.doubleBaseMargin
   },
-  emailLoginButtonWrapper: {
-    flex: 1,
-    borderWidth: 0
-  },
   loginButtonWrapper: {
+    backgroundColor: "#ff6300",
+    borderWidth: 0,
     flex: 1
   },
   loginButton: {
@@ -72,17 +81,5 @@ export default StyleSheet.create({
   topLogo: {
     alignSelf: 'center',
     resizeMode: 'contain'
-  },
-  btnNaverLogin: {
-    height: '48',
-    width: '240',
-    alignSelf: 'center',
-    backgroundColor: '#00c40f',
-    borderRadius: 0,
-    borderWidth: 0,
-  },
-  txtNaverLogin: {
-    fontSize: Fonts.size.medium,
-    color: 'white',
   }
 })
