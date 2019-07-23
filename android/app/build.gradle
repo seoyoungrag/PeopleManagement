@@ -149,12 +149,10 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
         debug {
             signingConfig signingConfigs.debug
-        }
-        release {
-            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -182,6 +180,7 @@ configurations.all {
   }
   */
 dependencies {
+    implementation project(':@react-native-community_async-storage')
     implementation project(':react-native-kakao-logins')
     implementation project(':react-native-naver-login')
     implementation fileTree(dir: "libs", include: ["*.jar"])
