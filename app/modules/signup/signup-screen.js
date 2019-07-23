@@ -11,7 +11,7 @@ import LoginActions from './signup.reducer'
 import NativeButton from 'apsl-react-native-button';
 
 import firebase from 'react-native-firebase'
-import { loginScreen, registerScreen, forgotPasswordScreen, changePasswordScreen, settingsScreen, entitiesScreen, mainScreen } from '../../navigation/layouts'
+import { mainScreen } from '../../navigation/layouts'
 
 import { CheckBox } from 'react-native-elements'
 

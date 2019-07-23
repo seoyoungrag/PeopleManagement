@@ -55,7 +55,6 @@ export const logoutSuccess = state => INITIAL_STATE
 //네이버 로그인 후 백엔드 서버로부터 토큰을 가져온다.
 export const setJwtToken = (state, data) => {
   const { JWTToken } = data
-  console.warn(JWTToken);
   return state.merge({ fetching: false, error: null, JWTToken })
 }
 

@@ -37,7 +37,6 @@ export default class MainScreen extends React.Component {
         console.log(err.toString());
         //return;
       }
-      console.warn(result);
     });
     */
     firebase.auth().signOut();

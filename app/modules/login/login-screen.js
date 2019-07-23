@@ -49,9 +49,8 @@ class LoginScreen extends React.Component {
     this.props.getJWTToken(mail);
     const { JWTToken } = this.props
     if(JWTToken){
-      console.warn("generateFirebaseToken")
       return firebase.auth().signInWithCustomToken(JWTToken)
-        .then(() => mainScreen() )
+        .then(() => {console.log('generateFirebaseToken'); mainScreen();} )
         .catch(error => this.setState({ errorMessage: error.message }));
       }
   }
@@ -104,7 +103,6 @@ class LoginScreen extends React.Component {
         return;
       }
       this.generateFirebaseToken(result.id);
-      //console.warn(result);
     });
   }
 
@@ -129,6 +127,7 @@ class LoginScreen extends React.Component {
 
   componentWillReceiveProps (newProps) {
     // Did the login attempt complete?
+    /*
     if (!newProps.fetching) {
       if (newProps.error) {
         if (newProps.error === 'WRONG') {
@@ -138,6 +137,7 @@ class LoginScreen extends React.Component {
         Navigation.dismissModal(this.props.componentId)
       }
     }
+    */
   }
 
   handlePressLogin = () => {

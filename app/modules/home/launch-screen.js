@@ -41,10 +41,8 @@ export default class LaunchScreen extends React.Component {
     setTimeout(function(){
       var authFlag = false;
       firebase.auth().onAuthStateChanged(user => {
-        console.warn(user);
         authFlag = user ? true : false ;
       })
-      console.warn(authFlag);
       authFlag == true? mainScreen() : loginScreen() ;
       }, 3000)
   }
