@@ -9,6 +9,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.dooboolab.kakaologins.RNKakaoLoginsPackage;
 import com.dooboolab.naverlogin.RNNaverLoginPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -72,6 +73,7 @@ public class MainApplication extends NavigationApplication {
 
     return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+            new AsyncStoragePackage(),
             new RNKakaoLoginsPackage(),
             new RNNaverLoginPackage(),
         new VectorIconsPackage(),
