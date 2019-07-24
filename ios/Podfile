@@ -47,6 +47,8 @@ pod 'yoga', path: "#{rn_path}/ReactCommon/yoga/yoga.podspec"
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
 end
 
 
